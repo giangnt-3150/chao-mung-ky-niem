@@ -38,6 +38,18 @@
 </head>
 
 <body>
+  <div id="overlay" class="overlay"></div>
+
+  <!-- Dialog -->
+  <div id="dialog" class="dialog">
+    <div class="star-icon">⭐</div>
+    <p class="dialog-title">Bạn có yêu nước không?</p>
+    <div class="button-group">
+      <button id="btnLove" class="button">Yêu</button>
+      <button id="btnVeryLove" class="button">Rất yêu</button>
+    </div>
+  </div>
+
   <div id="text">
     <div class="text-ky-niem"></div>
     <div class="date"></div>
@@ -166,29 +178,31 @@
       new THREE.Vector3(-flagWidth / 2, flagHeight / 2, 0)
     ];
 
-    drawLine(rectVertices, 2, function () {
-      drawLine(starVertices, 2, function () {
-        const flagMaterial = new THREE.MeshLambertMaterial({
-          map: starTexture,
-          side: THREE.DoubleSide,
-          wireframe: false,
-        });
-        const flagGeometry = new THREE.PlaneGeometry(flagWidth, flagHeight, segW, segH);
-        const flagMesh = new THREE.Mesh(flagGeometry, flagMaterial);
-        flagGroup.add(flagMesh);
+    async function startDraw() {
+      drawLine(rectVertices, 2, function () {
+        drawLine(starVertices, 2, function () {
+          const flagMaterial = new THREE.MeshLambertMaterial({
+            map: starTexture,
+            side: THREE.DoubleSide,
+            wireframe: false,
+          });
+          const flagGeometry = new THREE.PlaneGeometry(flagWidth, flagHeight, segW, segH);
+          const flagMesh = new THREE.Mesh(flagGeometry, flagMaterial);
+          flagGroup.add(flagMesh);
 
-        gsap.to(camera.position, {
-          z: 8, duration: zoomInDuration, ease: "power2.inOut", onComplete: function () {
-            gsap.to(camera.position, {
-              z: 10, duration: bounceOutDuration, ease: "elastic.out(1, 0.3)", onComplete: function () {
-                hideLines();
-                runEffectsLeftToRightWithShadow(flagMesh);
-              }
-            });
-          }
+          gsap.to(camera.position, {
+            z: 8, duration: zoomInDuration, ease: "power2.inOut", onComplete: function () {
+              gsap.to(camera.position, {
+                z: 10, duration: bounceOutDuration, ease: "elastic.out(1, 0.3)", onComplete: function () {
+                  hideLines();
+                  runEffectsLeftToRightWithShadow(flagMesh);
+                }
+              });
+            }
+          });
         });
       });
-    });
+    }
 
     const hideLines = () => {
       scene.children = scene.children.filter((object) => {
@@ -310,13 +324,37 @@
       });
     }
 
-    function animate() {
-        requestAnimationFrame(animate);
-        renderer.render(scene, camera);
+    function delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    animate();
-    setTimeout(() => onAnimationComplete(), 3000)
+    async function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    }
+
+    const overlay = document.getElementById('overlay');
+    const dialog = document.getElementById('dialog');
+    const btnLove = document.getElementById('btnLove');
+    const btnVeryLove = document.getElementById('btnVeryLove');
+
+    btnLove.addEventListener('click', async () => {
+      dialog.style.display = 'none';
+      overlay.style.display = 'none';
+
+      await startDraw();
+      animate();
+      setTimeout(() => onAnimationComplete(), 3000)
+    });
+
+    btnVeryLove.addEventListener('click', async () => {
+      dialog.style.display = 'none';
+      overlay.style.display = 'none';
+
+      await startDraw();
+      animate();
+      setTimeout(() => onAnimationComplete(), 3000)
+    });
   </script>
 </body>
 

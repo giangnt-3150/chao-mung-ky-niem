@@ -7,3 +7,73 @@ body {
 canvas {
   display: block;
 }
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(204, 204, 204, 0.7); /* Màu mờ */
+  display: block;
+}
+
+/* Dialog box */
+.dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 250px;
+  background-color: red;
+  border-radius: 10px;
+  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dialog-title {
+  position: absolute;
+  top: 20px;
+  font-size: 30px;
+  font-weight: 600;
+  margin-left: 12px;
+}
+
+/* Biểu tượng ngôi sao vàng */
+.star-icon {
+  position: absolute;
+  font-size: 110px;
+}
+
+.button-group {
+  position: absolute;
+  bottom: 20px;
+  display: flex;
+  width: 250px;
+  margin-left: 12px;
+  justify-content: space-between;
+}
+
+/* Các nút bấm */
+.button {
+  background-color: yellow;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+  color: red;
+  font-weight: bold;
+}
+
+/* Hover effect cho nút */
+.button:hover {
+  background-color: orange;
+}
